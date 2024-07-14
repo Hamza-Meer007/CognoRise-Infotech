@@ -1,0 +1,73 @@
+from tkinter import *
+import time
+from playsound import playsound
+def brush():
+    hrs_var.set('00')
+    min_var.set('02')
+    sec_var.set('00')
+def face():
+    hrs_var.set('00')
+    min_var.set('15')
+    sec_var.set('00')
+def eggs():
+    hrs_var.set('00')
+    min_var.set('10')
+    sec_var.set('00')
+def timer():
+    times = int(hrs.get()) * 3600+int(min.get()) * 60 + int(sec.get())
+    while times > -1 :
+        minutes, seconds = (times // 60, times % 60)
+        hour = 0
+        if minutes > 60:
+            hour , minutes = (minutes // 60, minutes % 60)
+        hrs_var.set(f'{hour:02}')
+        min_var.set(f'{minutes:02}')
+        sec_var.set(f'{seconds:02}')
+        time.sleep(1)
+        root.update()
+        if times == 0:
+            playsound('times_up.mp3')
+            hrs_var.set('00')
+            min_var.set('00')
+            sec_var.set('00')
+        times -= 1
+def clk():
+    text1= time.strftime('%I:%M:%S %p')
+    clock.config(text=text1)
+    clock.after(1000,clk)
+root = Tk()
+root.title('Timer')
+root.resizable(0,0)
+root.geometry('400x500+500+90')
+root.config(bg='black')
+root.iconbitmap('timer.ico')
+head = Label(root,text='Timer',bg='black',fg='#ea3548',font='helvatica 25 bold')
+head.place(x=150,y=10)
+Label(root,text='Current Time',font='arial 10 bold',bg='papaya whip').place(x=120,y=70)
+clock = Label(root,text="",font='arial 10 bold',bg='#fff',fg='#000')
+clock.place(x=210,y=70)
+clk()
+hrs_var = StringVar()
+hrs = Entry(root,font='Arial 50 bold',width=2,textvariable=hrs_var,bg='#000',fg='#fff',bd=0)
+hrs.place(x=20,y=140)
+hrs_var.set('00')
+min_var = StringVar()
+min = Entry(root,font='Arial 50 bold',width=2,textvariable=min_var,bg='#000',fg='#fff',bd=0)
+min.place(x=140,y=140)
+min_var.set('00')
+sec_var = StringVar()
+sec = Entry(root,font='Arial 50 bold',width=2,textvariable=sec_var,bg='#000',fg='#fff',bd=0)
+sec.place(x=270,y=140)
+sec_var.set('00')
+Label(root,text='Hours',font= 'arial 10 bold',bg='black',fg='#ea3548').place(x=100,y=205)
+Label(root,text='Minutes',font= 'arial 10 bold',bg='black',fg='#ea3548').place(x=210,y=205)
+Label(root,text='Seconds',font= 'arial 10 bold',bg='black',fg='#ea3548').place(x=340,y=205)
+start= Button(root,text='START',fg='black',bg='#ea3548',font='helvatica 15 bold',bd=0,padx=20,activebackground='silver',command=timer)
+start.pack(padx=5,pady=10,side=BOTTOM)
+img1 = PhotoImage(file='brush.png')
+Button(root,image=img1,bg='black',bd=0,activebackground='black',command=brush).place(x=10,y=260)
+img2 = PhotoImage(file='face.png')
+Button(root,image=img2,bg='black',bd=0,activebackground='black',command=face).place(x=140,y=260)
+img3 = PhotoImage(file='eggs.png')
+Button(root,image=img3,bg='black',bd=0,activebackground='black',command=eggs).place(x=270,y=260)
+root.mainloop()
